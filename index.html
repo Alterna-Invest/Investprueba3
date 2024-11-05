@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>SISTEMA</title>
+
+    <!-- Cargar el SDK de Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+
+    <script>
+        // Tu configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "tu-api-key",
+            authDomain: "tu-auth-domain",
+            projectId: "tu-project-id",
+            storageBucket: "tu-storage-bucket",
+            messagingSenderId: "tu-messaging-sender-id",
+            appId: "tu-app-id"
+        };
+
+        // Inicializa Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore(app); // Accede a Firestore
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div id="login" class="form-container">
+            <h1>SISTEMA </h1>
+            <input type="text" id="username" placeholder="USUARIO" required>
+            <input type="password" id="password" placeholder="CONTRASEÑA" required>
+            <button onclick="login()">ENTRAR</button>
+        </div>
+
+        <div id="menu" class="menu-container" style="display:none;">
+            <h2>MENÚ PRINCIPAL</h2>
+            <div class="buttons" id="menuButtons"></div>
+        </div>
+
+        <div id="addProduct" class="form-container" style="display:none;">
+            <h2>AGREGAR PRODUCTO</h2>
+            <input type="text" id="productCode" placeholder="CÓDIGO DE PRODUCTO" required>
+            <input type="text" id="productName" placeholder="NOMBRE DEL PRODUCTO" required>
+            <input type="number" id="productQuantity" placeholder="CANTIDAD" required>
+            <input type="number" id="productCost" placeholder="COSTO (Q)" required>
+            <input type="number" id="productPriceCash" placeholder="PRECIO CONTADO (Q)" required>
+            <input type="number" id="productPriceCredit" placeholder="PRECIO CRÉDITO (Q)" required>
+            <button onclick="previewProduct()">VISTA PREVIA</button>
+            <button onclick="clearAddProduct()">LIMPIAR</button>
+            <button onclick="showSection('menu')">REGRESAR AL MENÚ</button>
+            <div id="previewSection" style="display:none;">
+                <h3>VISTA PREVIA</h3>
+                <div id="previewDetails"></div>
+                <button onclick="confirmAddProduct()">CONFIRMAR</button>
+                <button onclick="hidePreview()">CANCELAR</button>
+            </div>
+        </div>
+
+        <div id="saleProduct" class="form-container" style="display:none;">
+            <h2>VENTA DE PRODUCTO</h2>
+            <select id="saleCode" onchange="updateProductName()"></select>
+            <span id="productDetails"></span>
+            <input type="number" id="saleQuantity" placeholder="CANTIDAD A VENDER" required>
+            <select id="saleType" onchange="updatePrice()">
+                <option value="Contado">CONTADO</option>
+                <option value="Crédito">CRÉDITO</option>
+            </select>
+            <div id="priceToPay" style="margin-top: 10px;"></div>
+            <button onclick="sellProduct()">VENDER</button>
+            <button onclick="showSection('menu')">REGRESAR AL MENÚ</button>
+        </div>
+
+        <div id="addInventory" class="form-container" style="display:none;">
+            <h2>INGRESO DE INVENTARIO</h2>
+            <select id="inventoryCode" onchange="updateInventoryProductName()"></select>
+            <span id="inventoryProductDetails"></span>
+            <input type="number" id="inventoryQuantity" placeholder="CANTIDAD A INGRESAR" required>
+            <button onclick="confirmInventory()">AGREGAR INVENTARIO</button>
+            <button onclick="showSection('menu')">REGRESAR AL MENÚ</button>
+        </div>
+
+        <div id="showStock" class="form-container" style="display:none;">
+            <h2>EXISTENCIAS DE PRODUCTOS</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>CÓDIGO</th>
+                        <th>NOMBRE</th>
+                        <th>EXISTENCIAS</th>
+                        <th>PRECIO CONTADO (Q)</th>
+                        <th>PRECIO CRÉDITO (Q)</th>
+                    </tr>
+                </thead>
+                <tbody id="stockList"></tbody>
+            </table>
+            <button onclick="showSection('menu')">REGRESAR AL MENÚ</button>
+        </div>
+
+        <div id="showKardex" class="form-container" style="display:none;">
+            <h2>KARDEX DE PRODUCTO</h2>
+            <input type="text" id="kardexCode" placeholder="CÓDIGO DE PRODUCTO" required>
+            <button onclick="showKardex()">MOSTRAR KARDEX</button>
+            <table>
+                <thead>
+                    <tr>
+                        <th>FECHA</th>
+                        <th>TIPO</th>
+                        <th>NOMBRE</th>
+                        <th>CANTIDAD</th>
+                    </tr>
+                </thead>
+                <tbody id="kardexList"></tbody>
+            </table>
+            <button onclick="showSection('menu')">REGRESAR AL MENÚ</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
